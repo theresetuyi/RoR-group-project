@@ -1,9 +1,9 @@
-<article class="border border-1 flex flex-row justify-between w-[60%]">
+<li class="border border-1 flex">
   <div class="title w-[40%]">
     <h2>
-      <%= data.name %>
+      <%= link_to data.name, inventory_path(data)%>
     </h2>
-    <button>REMOVE</button>
+    <%= button_to 'REMOVE', inventory_path(data), method: :delete %>
   </div>
   <div class="description flex-1">
     <p>
