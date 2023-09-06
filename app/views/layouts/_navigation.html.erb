@@ -1,0 +1,22 @@
+<!-- HTML structure for the navigation menu -->
+<nav class="bg-blue-500 py-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="text-white font-semibold text-lg">
+      Recipes App
+    </div>
+    <div class="hidden md:flex space-x-4">
+      <ul class="flex space-x-4">
+        <li><%= link_to 'Home', root_path, class: 'text-white' %></li>
+        <% if user_signed_in? %>
+          <li><%= link_to 'Profile', edit_user_registration_path, class: 'text-white' %></li>
+          <%= button_to(destroy_user_session_path, method: :delete) do %>
+            <button class="text-white">Log Out</button>
+          <% end %>
+        <% else %>
+          <li><%= link_to 'Sign in', new_user_session_path, class: 'text-white' %></li>
+          <li><%= link_to 'Sign up', new_user_registration_path, class: 'text-white' %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
