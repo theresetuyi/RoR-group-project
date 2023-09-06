@@ -1,0 +1,25 @@
+<main class="w-[60%] mx-auto m-3">
+  <div>
+    <h2 class="text-center">
+      <%= @inventory.name %>
+    </h2>
+    <div class="text-right">
+      <%= link_to 'Add new food',
+      new_inventory_food_path(@inventory),
+      class: "font-medium text-blue-600 dark:text-blue-500 hover:underline"
+      %>
+    </div>
+  </div>
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-4">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <%= render partial: 'shared/table_head' %>
+      <tbody>
+        <% @all_interfaces.each do |interface| %>
+          <%= render partial: 'shared/table_row',
+            locals: { quantity: interface.quantity, food: interface.food }
+          %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</main>

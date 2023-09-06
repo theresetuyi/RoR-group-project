@@ -5,8 +5,11 @@ Rails.application.routes.draw do
     password: 'secret',
     registration: 'signup'
   }
-
+  
+  resources :inventories do
+    resources :foods do
+      resources :inventory_foods
+    end
+  end
   root to: "inventories#index"
-
-  resources :inventories
 end

@@ -1,12 +1,13 @@
-<article class="border border-1 flex flex-row justify-between w-[60%]">
-  <div class="title w-[40%]">
-    <h2>
-      <%= data.name %>
+<li class="flex items-center py-4 px-6">
+  <div class="title w-[40%] flex-grow">
+    <h2 class="my-2 text-lg font-semibold text-gray-800 hover:underline">
+      <%= link_to data.name, inventory_path(data)%>
     </h2>
-    <button>REMOVE</button>
+    <%= button_to 'REMOVE', inventory_path(data), method: :delete,
+    class: 'text-red-500 hover:text-red-700 focus:outline-none' %>
   </div>
-  <div class="description flex-1">
-    <p>
+  <div class="ml-4 text-gray-600">
+    <p class="text-sm">
       <%= data.description %>
     </p>
   </div>
