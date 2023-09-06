@@ -1,7 +1,9 @@
-<main class="flex flex-col items-center">
-  <% @inventory_list.each do |invent_item| %>
-    <%= render partial: 'shared/inventory_or_recipe_item',
-      locals: { data: invent_item }
-    %>
-  <% end %>
+<main>
+  <ul class="inventories w-[70%] mx-auto">
+    <% @inventory_list.each do |invent_item| %>
+      <%= render partial: 'shared/inventory_or_recipe_item',
+        locals: { data: invent_item }
+      %>
+    <% end %>
+</ul>
 </main>
