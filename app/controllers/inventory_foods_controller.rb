@@ -1,4 +1,6 @@
 class InventoryFoodsController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @inventory = Inventory.find(params[:inventory_id])
     @food = Food.find(params[:food_id])
