@@ -5,6 +5,18 @@ class InventoriesController < ApplicationController
     @inventory_list = Inventory.all
   end
 
+  def new
+    @inventory = Inventory.new
+  end
+  
+  def create
+    @inventory = Inventory.new(inventory_params)
+    @inventory.user = current_user
+    if @inventory.save
+      redirect_to root_path
+    end
+  end
+
   def show
     @inventory = Inventory.find(params[:id])
     @all_interfaces = @inventory.inventory_foods
@@ -16,5 +28,10 @@ class InventoriesController < ApplicationController
     return unless @inventory_item.destroy
 
     redirect_to inventories_path
+  end
+
+  private
+  def inventory_params
+    params.require('inventory').permit(:name, :description)
   end
 end
