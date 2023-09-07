@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     end
   end
   get '/foods', to: 'foods#index'
+  get '/foods/new', to: 'foods#new', as: 'new_food'
   get '/shopping_lists', to: 'shopping_lists#index'
   resources :recipes
   root to: "inventories#index"

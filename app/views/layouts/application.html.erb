@@ -14,21 +14,27 @@
   </head>
 
   <body>
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <%= link_to "Home", root_path, class:"nav-link active" %>
-        <%= link_to "Foods", foods_path, class:"nav-link active" %>
-        <%= link_to "Recipes", '/recipes', class:"nav-link active" %>
-        <%= link_to "Public Recipes", '/public_recipes', class:"nav-link active" %>
-        <%= button_to "Sign Out", method: :delete, class:"nav-link" %>
-        <%= button_to "Sign Out", '/users/sign_out', method: :delete, class: "nav-link" %>
+  <nav class="bg-blue-500 py-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="text-white font-semibold text-lg">
+        Recipes App
+      </div>
+      <div class="md:flex space-x-4">
+        <ul class="flex space-x-4">
+          <li><%= link_to 'Home', root_path, class: 'text-white' %></li>
+          <% if user_signed_in? %>
+            <li><%= link_to 'Profile', edit_user_registration_path, class: 'text-white' %></li>
+            <%= button_to(destroy_user_session_path, method: :delete) do %>
+              <button class="text-white">Log Out</button>
+            <% end %>
+          <% else %>
+            <li><%= link_to 'Sign in', new_user_session_path, class: 'text-white' %></li>
+            <li><%= link_to 'Sign up', new_user_registration_path, class: 'text-white' %></li>
+          <% end %>
+        </ul>
       </div>
     </div>
-  </div>
+  </nav>
 
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
