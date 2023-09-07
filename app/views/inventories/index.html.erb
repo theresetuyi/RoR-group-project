@@ -4,30 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventories</title>
+  <!-- Include Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="bg-gray-100 min-h-screen flex flex-col justify-start items-center pt-8">
-  <main class="bg-white p-4 rounded-lg shadow-lg w-4/5">
-    <h1 class="text-2xl font-semibold mb-4 w-full text-center">Inventories</h1>
-    <ul class="inventories mx-auto divide-y divide-gray-300">
-      <% if @inventory_list.empty? %>
-        <div class="text-center text-gray-500 pt-8">There are no inventories yet</div>
-      <% else %>
-        <ul class="inventories mx-auto divide-y divide-gray-300">
-          <li class="py-2 flex w-full items-center">
-            <div class="flex items-center w-full justify-between">
-              <h2 class="text-lg font-medium ml-5">Name</h2>
-              <h2 class="text-lg font-medium mr-5">Description</h2>
-            </div>
-          </li>
-          <% @inventory_list.each do |invent_item| %>
-            <%= render partial: 'shared/inventory_or_recipe_item',
-                       locals: { data: invent_item }
-            %>
-          <% end %>
-        </ul>
-      <% end %>
+<body class="bg-gray-100">
 
+<div class="bg-gray-100 min-h-screen flex flex-col justify-start items-center pt-8">
+  <main class="w-full md:w-3/5 mt-8 p-4">
+    <h1 class="text-center mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Inventories</h1>
+
+    <ul class="inventories mx-auto divide-y divide-gray-300 bg-white p-4 rounded-lg shadow-lg">
+      <% if @inventory_list.empty? %>
+        <li class="py-8 text-center text-gray-500">There are no inventories yet</li>
+      <% else %>
+        <li class="py-2 flex w-full items-center">
+          <div class="flex items-center w-full justify-between">
+            <h2 class="text-lg font-medium ml-5">Name</h2>
+            <h2 class="text-lg font-medium mr-5">Description</h2>
+          </div>
+        </li>
+        <% @inventory_list.each do |invent_item| %>
+          <%= render partial: 'shared/inventory_or_recipe_item',
+                     locals: { data: invent_item }
+          %>
+        <% end %>
+      <% end %>
     </ul>
 
     <a href="<%= new_inventory_path %>" title="New Inventory"
@@ -38,5 +39,6 @@
     </a>
   </main>
 </div>
+
 </body>
 </html>

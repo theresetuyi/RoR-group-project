@@ -1,25 +1,42 @@
-<main class="w-[60%] mx-auto m-3">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add inventory food</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<main class="sm:w-full md:w-3/5 mx-auto mt-8 p-4">
   <div>
     <h2 class="text-center mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
       <%= @inventory.name %>
     </h2>
-    <div class="text-right">
-      <%= link_to 'Add new food',
-      new_inventory_food_path(@inventory),
-      class: "font-medium text-blue-600 dark:text-blue-500 hover:underline"
+    <div class="text-right mb-4">
+      <%= link_to 'Add New Food',
+                  new_inventory_food_path(@inventory),
+                  class: "text-indigo-600 hover:underline"
       %>
     </div>
   </div>
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-4">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-      <%= render partial: 'shared/table_head' %>
-      <tbody>
+  <div class="overflow-x-auto bg-white dark:bg-gray-800 shadow-md rounded-lg border border-gray-300">
+    <% if @all_interfaces.any? %>
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <%= render partial: 'shared/table_head' %>
+        <tbody>
         <% @all_interfaces.each do |interface| %>
           <%= render partial: 'shared/table_row',
-            locals: { quantity: interface.quantity, food: interface.food }
+                     locals: { quantity: interface.quantity, food: interface.food }
           %>
         <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-center text-gray-500 dark:text-gray-400 m-4">This inventory is empty.</p>
+    <% end %>
   </div>
+
 </main>
+</body>
+</html>
