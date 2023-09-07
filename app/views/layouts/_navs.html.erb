@@ -5,14 +5,14 @@
     </div>
     <div class="md:flex space-x-4">
       <ul class="flex space-x-4">
+        <li><%= link_to 'Inventories', inventories_path, class: 'text-white' %></li>
+        <li><%= link_to 'Recipes', recipes_path, class: 'text-white' %></li>
         <li><%= link_to 'Home', root_path, class: 'text-white' %></li>
         <% if user_signed_in? %>
-          <li><%= link_to 'Profile', edit_user_registration_path, class: 'text-white' %></li>
-          <li><%= button_to(destroy_user_session_path, method: :delete) do %>
-            <button class="text-white">Log Out</button></li>
-          <li><%= link_to 'Inventories', inventories_path, class: 'text-white' %></li>
-          <li><%= link_to 'Recipes', recipes_path, class: 'text-white' %></li>
-          <% end %>
+        <li><%= link_to 'Profile', edit_user_registration_path, class: 'text-white' %></li>
+        <li><%= button_to(destroy_user_session_path, method: :delete) do %>
+          <button class="text-white">Log Out</button></li>
+        <% end %>
         <% else %>
           <li><%= link_to 'Sign in', new_user_session_path, class: 'text-white' %></li>
           <li><%= link_to 'Sign up', new_user_registration_path, class: 'text-white' %></li>
