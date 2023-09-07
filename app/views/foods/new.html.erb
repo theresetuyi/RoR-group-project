@@ -1,5 +1,5 @@
 <!-- This form will fill the @food instance -->
-<%= form_with(model: [@inventory, @food], local: true) do |f| %>
+<%= form_with(model: [@inventory, @food], local: true, class:"w-[60%] mx-auto m-4") do |f| %>
 <div class="mb-6">
   <%= f.label :name,
   class:"block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
@@ -11,9 +11,7 @@
 <div class="mb-6">
   <%= f.label :measurement_unit,
   class:"block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-  <%= f.text_field :measurement_unit,
-  placeholder: "e.x grams, unit",
-  class:"shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" %>
+  <%= f.select :measurement_unit, ['--Select--', 'Kilo', 'Unit', 'Glass'], {selected: '--Select--'}, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}%>
 </div>
 
 <div class="mb-6">
