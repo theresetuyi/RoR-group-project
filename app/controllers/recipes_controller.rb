@@ -1,21 +1,32 @@
 class RecipesController < ApplicationController
-  before_action :authenticate_user!
-
   def index
-    @recipes = current_user.recipes
-  end
-
-  def show
-    @recipe = Recipe.find(params[:id])
+    @recipes = Recipe.all
   end
 
   def destroy
     @recipe = Recipe.find(params[:id])
-    if current_user == @recipe.user
-      @recipe.destroy
-      redirect_to recipes_path, notice: 'Recipe was successfully deleted.'
-    else
-      redirect_to recipes_path, alert: 'You do not have permission to delete this recipe.'
-    end
+    return unless @recipe.destroy
+
+    redirect_to recipe_path
+  end
+
+  def public_recipes
+    @recipes = Recipe.includes(:user).all.where(public: true).order(created_at: :desc)
+  end
+
+  def show
+    @recipe = Recipe.find(params[:id])
+    p @recipe.public
+    @recipe_food = RecipeFood.includes(:food).all.where(recipe_id: @recipe.id)
+    p @recipe_food
+  end
+
+  def add_food(recipe_id)
+    @recipe = Recipe.find(recipe_id)
+    @food = Food.find(params[:food_id])
+
+    @recipe.foods << @food
+
+    redirect_to recipe_path(@recipe)
   end
 end

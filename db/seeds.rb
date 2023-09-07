@@ -1,6 +1,13 @@
 user1 = User.create(name:'Ali')
 user2 = User.create(name:'John')
 
+
+recipe1 = Recipe.create(name: 'RECIPE1', preparation_time: 20, cooking_time: 40, description: 'A beef stew meal', public: false, user: user1)
+recipe2 = Recipe.create(name: 'RECIPE2', preparation_time: 30, cooking_time: 50, description: 'A chicken stew meal', public: false, user: user1)
+recipe3 = Recipe.create(name: 'RECIPE3', preparation_time: 40, cooking_time: 35, description: 'A mutton stew meal', public: true, user: user2)
+recipe4 = Recipe.create(name: 'RECIPE4', preparation_time: 10, cooking_time: 44, description: 'A pork stew meal', public: false, user: user2)
+
+
 inventory1 = Inventory.create(user:user1, name:'first_inventory', description:'details for thie inventory')
 
 inventory2 = Inventory.create(user:user1, name:'invent_2',description:'details for this invent_1')

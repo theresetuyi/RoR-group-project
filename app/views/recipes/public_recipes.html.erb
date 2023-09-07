@@ -1,0 +1,21 @@
+<div class="page_container">
+  <% @recipes.each do |recipe| %>
+    <div class="a_recipe">
+      <div class="first_section">
+        <%= link_to recipe_path(recipe), class: "recipe_details_link" do %>
+          <h3><%= recipe.name %></h3>
+        <% end %>
+        <p>By: <%= recipe.user.name %></p>
+      </div>
+      <div class="second_section">
+        <p>Total Food Item: <%= recipe.recipe_foods.count %><br/>Total Food Item: 
+          <% sum = 0 %>
+          <% recipe.recipe_foods.each do |rp| %>
+            <% sum += rp.quantity * rp.food.price %>
+          <% end %>
+          $<%= sum %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>
