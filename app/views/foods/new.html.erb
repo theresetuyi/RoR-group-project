@@ -9,22 +9,32 @@
 <body class="bg-gray-100">
 
 <main class="w-[80%] mx-auto mt-8 p-4">
-  <h1 class="text-center mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Add new food</h1>
+  <h1 class="text-center mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+    Add new food</h1>
 
   <%= form_with(model: [@inventory, @food], local: true, class: "sm:w-full md:w-3/5 mx-auto m-4") do |f| %>
     <div class="mb-6">
       <%= f.label :name, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= f.text_field :name, placeholder: "e.g., apple, cake", class: "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" %>
+      <%= f.text_field :name, placeholder: "e.g., apple, cake", class: "shadow-sm bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+      dark:shadow-sm-light" %>
     </div>
 
     <div class="mb-6">
       <%= f.label :measurement_unit, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= f.select :measurement_unit, ['--Select--', 'Kilos', 'Units', 'Glasses', 'Liters'], { selected: '--Select--' }, { class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+      <%= f.select :measurement_unit, ['--Select--', 'Kilos', 'Units', 'Glasses', 'Liters'], { selected: '--Select--' },
+                   { class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                   focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+                   dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
     </div>
 
     <div class="mb-6">
       <%= f.label :price, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= f.number_field :price, placeholder: "e.g., 20, 50", class: "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" %>
+      <%= f.number_field :price, placeholder: "e.g., 20, 50", class: "shadow-sm bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+      dark:shadow-sm-light" %>
     </div>
 
     <%= f.submit 'Next', class: 'text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none
