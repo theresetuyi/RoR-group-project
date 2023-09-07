@@ -1,23 +1,44 @@
-<%= form_with(model: @inventory, local: true, class:'w-[60%] m-8 mx-auto' ) do |f| %>
-  <div class="mb-6">
-    <%= f.label :name,
-    class:"block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-    <%= f.text_field :name,
-    placeholder: "inventory_1",
-    class:"shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" %>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventories</title>
+  <!-- Include Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="bg-gray-100 min-h-screen flex flex-col justify-start items-center pt-8">
+  <main class="bg-white p-4 rounded-lg shadow-lg w-4/5">
+    <h1 class="text-2xl font-semibold mb-4 w-full text-center text-indigo-700">Create Inventory</h1>
 
-  <div class="mb-6">
-    <%= f.label :description,
-    class:"block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-    <%= f.text_area :description,
-    size: "1x5",
-    placeholder: "Write some description about the inventory",
-    class:"block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
-  </div>
+    <%= form_with(model: @inventory, local: true, class:'sm:w-full md:w-3/5 m-8 mx-auto' ) do |f| %>
+      <div class="mb-6">
+        <%= f.label :name, class:"block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= f.text_field :name, placeholder: "Inventory Name",
+                         class:"shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg
+                         focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700
+                         dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-indigo-500
+                         dark:focus:border-indigo-500 dark:shadow-sm-light" %>
+      </div>
 
-  <%= f.submit 'Save',
-    class:'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-  %>
+      <div class="mb-6">
+        <%= f.label :description, class:"block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= f.text_area :description, size: "1x5",
+                        placeholder: "Write some description about the inventory",
+                        class:"block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300
+                        focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600
+                        dark:placeholder-gray-400 dark:text-gray-300 dark:focus:ring-indigo-500
+                        dark:focus:border-indigo-500" %>
+      </div>
 
-<% end %>
+      <%= f.submit 'Save',
+                   class:'text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none
+   focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600
+   dark:hover:bg-indigo-700 dark:focus:ring-indigo-800 w-full md:w-1/6'
+      %>
+    <% end %>
+  </main>
+</div>
+</body>
+</html>

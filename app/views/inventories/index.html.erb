@@ -1,14 +1,44 @@
-<main>
-  <ul class="inventories w-[70%] mx-auto divide-y divide-gray-300">
-    <% @inventory_list.each do |invent_item| %>
-      <%= render partial: 'shared/inventory_or_recipe_item',
-        locals: { data: invent_item }
-      %>
-    <% end %>
-  </ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventories</title>
+  <!-- Include Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
 
-  <a href="<%= new_inventory_path %>" title="New Inventory"
-    class="fixed right-6 bottom-[10%] inline-flex items-center justify-center w-12 h-12 mr-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">
-    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
-  </a>
-</main>
+<div class="bg-gray-100 min-h-screen flex flex-col justify-start items-center pt-8">
+  <main class="w-full md:w-3/5 mt-8 p-4">
+    <h1 class="text-center mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Inventories</h1>
+
+    <ul class="inventories mx-auto divide-y divide-gray-300 bg-white p-4 rounded-lg shadow-lg">
+      <% if @inventory_list.empty? %>
+        <li class="py-8 text-center text-gray-500">There are no inventories yet</li>
+      <% else %>
+        <li class="py-2 flex w-full items-center">
+          <div class="flex items-center w-full justify-between">
+            <h2 class="text-lg font-medium ml-5">Name</h2>
+            <h2 class="text-lg font-medium mr-5">Description</h2>
+          </div>
+        </li>
+        <% @inventory_list.each do |invent_item| %>
+          <%= render partial: 'shared/inventory_or_recipe_item',
+                     locals: { data: invent_item }
+          %>
+        <% end %>
+      <% end %>
+    </ul>
+
+    <a href="<%= new_inventory_path %>" title="New Inventory"
+       class="fixed right-6 bottom-10% inline-flex items-center justify-center w-12 h-12 mr-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-full focus:shadow-outline hover:bg-indigo-800">
+      <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+        <path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" fill-rule="evenodd"></path>
+      </svg>
+    </a>
+  </main>
+</div>
+
+</body>
+</html>

@@ -13,14 +13,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body>
+  <body class="bg-gray-100">
     <%= render partial: 'layouts/navs' %>
     <%= render partial: 'layouts/message' %>
-    <div class="bg-teal-100 border-l-4 border-orange-500 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
-      
+    <div class="container flex justify-between items-center bg-teal-100 border-l-4 border-orange-500 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
       <% if user_signed_in? %>
-        <p class="font-bold">Active</p>
-        <p class="text-sm">User_Name: <%= current_user.name%></p>
+          <p class="text-sm whitespace-nowrap"><span class="font-bold">User:</span> <%= current_user.name %></p>
       <% end %>
     </div>
     <%= yield %>
