@@ -22,5 +22,34 @@
       </div>
     <% end %>
     <%= yield %>
+    <script>
+        // Function to remove the notice and alert messages and trigger the fade-out effect
+        function removeMessages() {
+            const noticeElement = document.getElementById('notice');
+            const alertElement = document.getElementById('alert');
+
+            if (noticeElement) {
+                noticeElement.classList.add('opacity-0');
+            }
+
+            if (alertElement) {
+                alertElement.classList.add('opacity-0');
+            }
+
+            // Remove the elements from the DOM after the animation completes
+            setTimeout(() => {
+                if (noticeElement) {
+                    noticeElement.remove();
+                }
+
+                if (alertElement) {
+                    alertElement.remove();
+                }
+            }, 1000); // Adjust the timing based on your transition duration (1000ms in this example)
+        }
+
+        // Call the removeMessages function after 3 seconds (3000 milliseconds)
+        setTimeout(removeMessages, 3000);
+    </script>
   </body>
 </html>
