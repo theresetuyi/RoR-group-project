@@ -1,39 +1,130 @@
-<div class="show_recipe_container">
-  <h2><%=@recipe.name%></h2>
-  <div class="text_section">
-    <div>
-      <p>Preparation time: <%=@recipe.preparation_time%></p>
-      <p>Cooking time: <%=@recipe.cooking_time%></p>
-      <p>Steps go here...</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Show Recipe</title>
+  <!-- Include Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <meta name="csrf-token" content="<%= form_authenticity_token %>">
+</head>
+<body class="bg-gray-100">
+
+<div class="mx-auto w-3/5 bg-white shadow-lg rounded-lg p-6">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4"><%= @recipe.name %></h2>
+  <div class="flex justify-between">
+    <div class="w-1/2">
+      <p class="text-gray-600 mb-2">
+        Preparation time: <%= @recipe.preparation_time %> <%= @recipe.preparation_time.to_i > 1 ? 'minutes' : 'minute' %>
+      </p>
+      <p class="text-gray-600 mb-2">
+        Cooking time: <%= @recipe.cooking_time %> <%= @recipe.cooking_time.to_i > 1 ? 'minutes' : 'minute' %>
+      </p>
+      <p class="text-gray-600">Steps: <%= @recipe.steps %></p>
     </div>
-    <div>
-      <%= form_with do |form|%>
-        <%= form.label :public, "Public" %>
-        <%= form.check_box :public, :checked => @recipe.public, :value => @recipe.public %>
-      <%end%>
+
+    <%= form_for @recipe, url: { action: :update_status }, method: :patch do |f| %>
+      <span class="text-Black text-xs font-semibold px-3 py-1 leading-5">
+        <%= @recipe.public ? 'Public' : 'Private' %>
+      </span>
+      <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+        <input type="checkbox" name="recipe[public]" id="toggle"
+               class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+               <% if @recipe.public %>
+               checked
+               <% end %>
+               onclick="this.form.submit()">
+        <label for="toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+               style="background-color: <%= @recipe.public ? 'green' : 'red' %>;"></label>
+      </div>
+    <% end %>
+
+
+  </div>
+  <div class="mt-6">
+    <div class="flex justify-between items-center">
+      <h3 class="text-xl font-semibold text-gray-800">Recipe Foods</h3>
+      <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Generate Shopping List</a>
+      <%= link_to 'Select Foods to Add', select_foods_recipe_path(@recipe) %>
     </div>
-  </div>
-  <div class="button_section">
-    <a>Generate shopping list</a>
-    <a href='/recipes/<%=@recipe.id%>/add_food'>Add ingredient</a>
-  </div>
-  <div class="table_section">
-    <table>
-      <tr>
-        <th>Food</th>
-        <th>Quantity</th>
-        <th>Value</th>
-        <th>Action</th>
-      </tr>
-      <%@recipe_food.each do |rf|%>
-        <tr>
-          <td><%=rf.food.name%></td>
-          <td><%=rf.quantity%></td>
-          <td>$ <%=rf.food.price%></td>
-          <td><a href="">Modify</a>&nbsp<a href="">Remove</a>
-          </td>
-        </tr>
-      <%end%>
-    </table>
+
+    <div class="mt-4">
+      <% if @recipe.recipe_foods.present? %>
+        <table class="w-full border-collapse border border-gray-300">
+          <thead>
+          <tr>
+            <th class="py-2 px-3 bg-gray-100 text-gray-600">Food</th>
+            <th class="py-2 px-3 bg-gray-100 text-gray-600">Quantity</th>
+            <th class="py-2 px-3 bg-gray-100 text-gray-600">Value</th>
+            <th class="py-2 px-3 bg-gray-100 text-gray-600">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @recipe.recipe_foods.each do |rf| %>
+            <tr>
+              <td class="py-2 px-3 border border-gray-300"><%= rf.food.name %></td>
+              <td class="py-2 px-3 border border-gray-300"><%= rf.quantity %></td>
+              <td class="py-2 px-3 border border-gray-300">$ <%= rf.food.price %></td>
+              <td class="py-2 px-3 border border-gray-300">
+                <a href="#" class="text-blue-600 hover:underline">Modify</a>
+                <a href="#" class="text-red-600 hover:underline ml-2">Remove</a>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="text-gray-600 mt-4">This recipe has no ingredients yet.</p>
+      <% end %>
+    </div>
   </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("toggle");
+        const toggleText = document.getElementById("toggleText");
+        let isChecked = <%= @recipe.public %>;
+
+        toggle.addEventListener("click", function () {
+            isChecked = !isChecked;
+            updateToggleState();
+            updateToggleText(isChecked);
+            saveStatus(isChecked);
+        });
+
+        function updateToggleState() {
+            if (isChecked) {
+                toggle.style.transform = "translateX(100%)";
+            } else {
+                toggle.style.transform = "translateX(0)";
+            }
+        }
+
+        function updateToggleText(status) {
+            toggleText.textContent = status ? "Private" : "Public";
+        }
+
+        function saveStatus(status) {
+            fetch(`/recipes/<%= @recipe.id %>/update_status`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-Token": "<%= form_authenticity_token %>"
+                },
+                body: JSON.stringify({ public: status })
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+
+        updateToggleState();
+    });
+</script>
+
+</body>
+</html>
