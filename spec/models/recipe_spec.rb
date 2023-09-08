@@ -20,6 +20,5 @@ RSpec.describe Recipe, type: :model do
       expect { recipe.save! }.not_to raise_error(ActiveRecord::RecordInvalid)
       expect(recipe).to be_valid
     end
-
   end
 end
