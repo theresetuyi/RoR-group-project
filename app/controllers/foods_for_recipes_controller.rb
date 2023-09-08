@@ -1,11 +1,13 @@
 class FoodsForRecipesController < ApplicationController
-  def create_for_recipe
+  before_action :set_recipe, only: [:create]
+  def create
     @food = Food.new(food_params)
 
     if @food.save
+      flash[:notice] = "Food added successfully."
       redirect_to select_foods_recipe_path(@recipe)
     else
-      # Redirect back to the previous page (select_foods)
+      flash[:alert] = "Food creation failed."
       redirect_back(fallback_location: select_foods_recipe_path(@recipe), alert: "Food creation failed.")
     end
   end

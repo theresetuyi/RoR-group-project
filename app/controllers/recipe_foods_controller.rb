@@ -48,13 +48,19 @@ class RecipeFoodsController < ApplicationController
   end
 
   # DELETE /recipe_foods/1 or /recipe_foods/1.json
-  def destroy
-    @recipe_food.destroy
+  # app/controllers/recipes_controller.rb
 
-    respond_to do |format|
-      format.html { redirect_to recipe_foods_url, notice: 'Recipe food was successfully destroyed.' }
-      format.json { head :no_content }
+  def destroy
+    @recipe_food = RecipeFood.find(params[:id])
+    @recipe = @recipe_food.recipe # Store the associated recipe before destroying
+
+    if @recipe_food.destroy
+      flash[:notice] = "Food removed successfully."
+    else
+      flash[:alert] = "Error removing food."
     end
+
+    redirect_to recipe_path(@recipe)
   end
 
   private

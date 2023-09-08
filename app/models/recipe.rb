@@ -11,9 +11,4 @@ class Recipe < ApplicationRecord
   validates :cooking_time, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :preparation_time, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :public, inclusion: { in: [true, false] }
-
-  # Define a method to add Recipe Foods
-  def add_recipe_food(food, quantity)
-    recipe_foods.create(food: food, quantity: quantity)
-  end
 end

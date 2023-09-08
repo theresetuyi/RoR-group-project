@@ -33,7 +33,8 @@ Rails.application.routes.draw do
   end
 
   get 'recipes/:id/show_recipe', to: 'recipes#show', as: 'show_recipe'
-
+  resources :recipe_foods, only: [:destroy]
+  delete '/recipe_foods/:id', to: 'recipe_foods#destroy', as: :delete_recipe_food
   get '/foods', to: 'foods#index'
   get '/foods/new', to: 'foods#new', as: 'new_food'
   get '/shopping_lists', to: 'shopping_lists#index'

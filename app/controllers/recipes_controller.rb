@@ -8,7 +8,7 @@ class RecipesController < ApplicationController
   end
 
   def create
-    @recipe = current_user.recipes.build(recipe_params)
+    @recipe = current_user.recipes.build(recipe_params2)
 
     if @recipe.save
       redirect_to @recipe, notice: 'Recipe was successfully created.'
@@ -26,6 +26,19 @@ class RecipesController < ApplicationController
     end
     @recipe.save
     redirect_to @recipe, notice: "Status updated successfully."
+  end
+
+  def remove_food
+    @recipe = Recipe.find(params[:id])
+    @recipe_food = @recipe.recipe_foods.find(params[:recipe_food_id])
+
+    if @recipe_food.destroy
+      flash[:notice] = "Food removed successfully."
+    else
+      flash[:alert] = "Error removing food from the recipe."
+    end
+
+    redirect_to recipe_path(@recipe)
   end
 
   def destroy
@@ -55,14 +68,27 @@ class RecipesController < ApplicationController
     redirect_to recipe_path(@recipe)
   end
 
+  # app/controllers/recipes_controller.rb
   def add_selected_foods
-    @recipe = Recipe.find(params[:id])
-    selected_food_ids = params[:food_ids]
-    selected_foods = Food.where(id: selected_food_ids)
+    selected_food_id = params[:food_id]
+    quantity = params[:food_quantity].to_i
+    food = Food.find_by(id: selected_food_id)
+    @recipe = Recipe.find(params[:id]) # Ensure the recipe is loaded
 
-    @recipe.foods << selected_foods
+    if food.present? && quantity > 0
+      # Create a new RecipeFood record and associate it with the recipe and food
+      @recipe_food = @recipe.recipe_foods.build(food: food, quantity: quantity)
 
-    redirect_to recipe_path(@recipe), notice: 'Selected foods added to the recipe.'
+      if @recipe_food.save
+        flash[:notice] = "Food added successfully."
+      else
+        flash[:alert] = "Error adding food to the recipe."
+      end
+    else
+      flash[:alert] = "Invalid food selection."
+    end
+
+    redirect_to recipe_path(@recipe)
   end
 
   def select_foods
@@ -74,5 +100,9 @@ class RecipesController < ApplicationController
     params.require(:recipe).permit(
       recipe_foods_attributes: [:id, :food_id, :quantity, :_destroy]
     )
+  end
+
+  def recipe_params2
+    params.require(:recipe).permit(:name, :description, :steps, :cooking_time, :preparation_time, :public)
   end
 end
