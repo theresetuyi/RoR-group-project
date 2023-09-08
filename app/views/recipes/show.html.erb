@@ -23,6 +23,7 @@
       <p class="text-gray-600">Steps: <%= @recipe.steps %></p>
     </div>
 
+    <% if current_user == @recipe.user %>
     <%= form_for @recipe, url: { action: :update_status }, method: :patch do |f| %>
       <span class="text-Black text-xs font-semibold px-3 py-1 leading-5">
         <%= @recipe.public ? 'Public' : 'Private' %>
@@ -38,14 +39,37 @@
                style="background-color: <%= @recipe.public ? 'green' : 'red' %>;"></label>
       </div>
     <% end %>
+    <% end %>
 
 
   </div>
   <div class="mt-6">
     <div class="flex justify-between items-center">
       <h3 class="text-xl font-semibold text-gray-800">Recipe Foods</h3>
-      <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Generate Shopping List</a>
+      <button id="popupTrigger" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md">
+        Generate Shopping List
+      </button>
+      <% if current_user == @recipe.user %>
       <%= link_to 'Select ingredients to Add', select_foods_recipe_path(@recipe), class: 'bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md' %>
+      <% end %>
+    </div>
+
+
+    <div id="popupModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+      <div class="bg-white dark:bg-gray-800 w-96 p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4">Generating Shopping List</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-4">Choose an inventory to use:</p>
+        <select id="inventoryDropdown" class="w-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white py-2 px-3 rounded-md mb-4">
+          <% @user_inventories.each do |inventory| %>
+            <option value="<%= inventory.id %>"><%= inventory.name %></option>
+          <% end %>
+        </select>
+        <button id="generateButton"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md"
+                data-recipe-id="<%= @recipe.id %>">
+          Generate
+        </button>
+      </div>
     </div>
 
     <div class="mt-4">
@@ -65,12 +89,14 @@
               <td class="py-2 px-3 border border-gray-300"><%= rf.food.name %></td>
               <td class="py-2 px-3 border border-gray-300"><%= rf.quantity %></td>
               <td class="py-2 px-3 border border-gray-300">$ <%= rf.food.price %></td>
+              <% if current_user == @recipe.user %>
               <td class="py-2 px-3 border border-gray-300">
                 <%= form_for rf, url: recipe_food_path(rf), method: :delete, remote: true do |f| %>
                   <%= f.hidden_field :id %>
                   <%= f.submit "Remove", class: "text-red-600 hover:underline ml-2" %>
                 <% end %>
               </td>
+              <% end %>
             </tr>
           <% end %>
           </tbody>
@@ -125,6 +151,74 @@
         }
 
         updateToggleState();
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const popupTrigger = document.getElementById("popupTrigger");
+        const popupModal = document.getElementById("popupModal");
+        const inventoryDropdown = document.getElementById("inventoryDropdown");
+        const generateButton = document.getElementById("generateButton");
+
+        let selectedInventoryName = null; // Initialize selectedInventoryName
+
+        // Event listener for clicking the trigger button
+        popupTrigger.addEventListener("click", function () {
+            // Show the popup modal
+            popupModal.classList.remove("hidden");
+
+            // Fetch inventory names from the server (replace this with your actual API endpoint)
+            fetch("/inventories/user_inventories")
+                .then((response) => response.json())
+                .then((data) => {
+                    // Clear any existing options in the dropdown
+                    inventoryDropdown.innerHTML = "";
+
+                    // Create and append an option element for each inventory
+                    data.forEach((inventory) => {
+                        const option = document.createElement("option");
+                        option.value = inventory.id; // Use the ID as the option value
+                        option.textContent = inventory.name;
+                        inventoryDropdown.appendChild(option);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+            });
+
+        // Event listener for selecting an inventory
+        inventoryDropdown.addEventListener("change", function () {
+            selectedInventoryName = inventoryDropdown.options[inventoryDropdown.selectedIndex].text;
+        });
+
+        // Event listener for clicking the generate button
+        generateButton.addEventListener("click", function () {
+            // Close the popup modal
+            popupModal.classList.add("hidden");
+
+            // Retrieve the selected inventory ID from the dropdown
+            const selectedInventoryId = inventoryDropdown.value;
+
+            // Extract the recipe ID from the current URL
+            const currentUrl = window.location.href;
+            const recipeIdMatch = currentUrl.match(/\/recipes\/(\d+)/);
+            const recipeId = recipeIdMatch ? recipeIdMatch[1] : null;
+
+            if (recipeId) {
+                // Redirect to the generate_shopping_list action with the selected recipe and inventory IDs
+                window.location.href = `/recipes/${recipeId}/generate_shopping_list?inventory_id=${selectedInventoryId}&recipe_id=${recipeId}`;
+            } else {
+                console.error("Recipe ID not found in the URL.");
+            }
+        });
+
+
+        popupModal.addEventListener("click", function (event) {
+            if (event.target === popupModal) {
+                // Click occurred outside the modal's content, close the modal
+                popupModal.classList.add("hidden");
+            }
+        });
     });
 </script>
 

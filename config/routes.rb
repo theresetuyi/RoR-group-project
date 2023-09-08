@@ -7,7 +7,12 @@ Rails.application.routes.draw do
     registration: 'signup'
   }
 
+  get '/inventories/all_names_with_ids', to: 'inventories#all_names_with_ids'
+
+  get '/public_recipes', to: 'recipes#public_recipes', as: 'public_recipes'
+
   resources :inventories do
+    post 'add_selected_foods', on: :member
     resources :foods do
       resources :inventory_foods
     end
@@ -29,6 +34,7 @@ Rails.application.routes.draw do
       post 'create_food' # Route for creating food and adding it to the recipe
       get 'select_foods'
       post 'add_selected_foods'
+      get 'generate_shopping_list'
     end
   end
 
@@ -40,4 +46,5 @@ Rails.application.routes.draw do
   get '/shopping_lists', to: 'shopping_lists#index'
 
   root to: "inventories#index"
+
 end

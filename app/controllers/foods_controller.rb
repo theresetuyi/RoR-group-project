@@ -4,16 +4,23 @@ class FoodsController < ApplicationController
   def new
     @inventory = Inventory.find(params[:inventory_id])
     @food = Food.new
+    @available_foods = Food.all
   end
 
   def create
     @food = Food.new(food_params)
     @inventory = Inventory.find(params[:inventory_id])
-    # let to save, food is filled by data
-    if @food.save
+    existing_food = Food.find_by(name: @food.name)
+
+    if existing_food
+      # Food with the same name already exists
+      # You can handle this situation here, for example, by redirecting to the edit page
+      redirect_to edit_inventory_food_inventory_food_path(@inventory, existing_food)
+    elsif @food.save
       redirect_to new_inventory_food_inventory_food_path(@inventory, @food)
     else
-      render 'new'
+      flash.now[:alert] = 'Error: Food with this name already exists.'
+      render :new
     end
   end
 
