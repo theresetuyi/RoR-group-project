@@ -19,13 +19,9 @@ class RecipesController < ApplicationController
 
   def update_status
     @recipe = Recipe.find(params[:id])
-    if @recipe.public == true
-      @recipe.public = false
-    else
-      @recipe.public = true
-    end
+    @recipe.public = @recipe.public != true
     @recipe.save
-    redirect_to @recipe, notice: "Status updated successfully."
+    redirect_to @recipe, notice: 'Status updated successfully.'
   end
 
   def remove_food
@@ -33,9 +29,9 @@ class RecipesController < ApplicationController
     @recipe_food = @recipe.recipe_foods.find(params[:recipe_food_id])
 
     if @recipe_food.destroy
-      flash[:notice] = "Food removed successfully."
+      flash[:notice] = 'Food removed successfully.'
     else
-      flash[:alert] = "Error removing food from the recipe."
+      flash[:alert] = 'Error removing food from the recipe.'
     end
 
     redirect_to recipe_path(@recipe)
@@ -75,17 +71,17 @@ class RecipesController < ApplicationController
     food = Food.find_by(id: selected_food_id)
     @recipe = Recipe.find(params[:id]) # Ensure the recipe is loaded
 
-    if food.present? && quantity > 0
+    if food.present? && quantity.positive?
       # Create a new RecipeFood record and associate it with the recipe and food
-      @recipe_food = @recipe.recipe_foods.build(food: food, quantity: quantity)
+      @recipe_food = @recipe.recipe_foods.build(food:, quantity:)
 
       if @recipe_food.save
-        flash[:notice] = "Food added successfully."
+        flash[:notice] = 'Food added successfully.'
       else
-        flash[:alert] = "Error adding food to the recipe."
+        flash[:alert] = 'Error adding food to the recipe.'
       end
     else
-      flash[:alert] = "Invalid food selection."
+      flash[:alert] = 'Invalid food selection.'
     end
 
     redirect_to recipe_path(@recipe)
@@ -98,7 +94,7 @@ class RecipesController < ApplicationController
 
   def recipe_params
     params.require(:recipe).permit(
-      recipe_foods_attributes: [:id, :food_id, :quantity, :_destroy]
+      recipe_foods_attributes: %i[id food_id quantity _destroy]
     )
   end
 

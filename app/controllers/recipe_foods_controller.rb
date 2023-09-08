@@ -7,8 +7,7 @@ class RecipeFoodsController < ApplicationController
   end
 
   # GET /recipe_foods/1 or /recipe_foods/1.json
-  def show
-  end
+  def show; end
 
   # GET /recipe_foods/new
   def new
@@ -16,8 +15,7 @@ class RecipeFoodsController < ApplicationController
   end
 
   # GET /recipe_foods/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /recipe_foods or /recipe_foods.json
   def create
@@ -55,9 +53,9 @@ class RecipeFoodsController < ApplicationController
     @recipe = @recipe_food.recipe # Store the associated recipe before destroying
 
     if @recipe_food.destroy
-      flash[:notice] = "Food removed successfully."
+      flash[:notice] = 'Food removed successfully.'
     else
-      flash[:alert] = "Error removing food."
+      flash[:alert] = 'Error removing food.'
     end
 
     redirect_to recipe_path(@recipe)
