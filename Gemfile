@@ -54,7 +54,7 @@ group :development, :test do
   gem 'dotenv-rails'
 
   # Rspec version for unit tests
-  gem 'rspec-rails', '~> 6.0.0'
+  gem 'rspec-rails'
 end
 
 group :development do
