@@ -270,7 +270,8 @@ DEPENDENCIES
   letter_opener
   pg (~> 1.1)
   puma (~> 5.0)
-  rails (~> 7.0.7, >= 7.0.7.2)
+  rack (= 2.2.8)
+  rails (>= 7.0.7.2, < 8)
   rspec-rails
   selenium-webdriver
   sprockets-rails
