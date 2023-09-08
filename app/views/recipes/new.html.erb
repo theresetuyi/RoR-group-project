@@ -1,22 +1,78 @@
-<h2>Sign up</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create a New Recipe</title>
+  <!-- Include Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
 
-<%= form_with model: @food, url: '/add_food/:id', method: :post do |form| %>
-  <div class="field">
-    <%= form.label :name %><br />
-    <%= form.text_field :name %>
-  </div>
+<main class="w-[80%] mx-auto mt-8 p-4">
+  <h1 class="text-center mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+    Create a New Recipe</h1>
 
-  <div class="field">
-    <%= form.label :measurement_unit %><br />
-    <%= form.number_field :measurement_unit %>
-  </div>
+  <%= form_with(model: @recipe, local: true) do |f| %>
+    <!-- Recipe Name -->
+    <div class="mb-6">
+      <%= f.label :name, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= f.text_field :name, class: "shadow-sm bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+      dark:shadow-sm-light" %>
+    </div>
 
-  <div class="field">
-    <%= form.label :price %><br />
-    <%= form.number_field :price %>
-  </div>
+    <!-- Description -->
+    <div class="mb-6">
+      <%= f.label :description, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= f.text_area :description, class: "shadow-sm bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+      dark:shadow-sm-light" %>
+    </div>
 
-  <div class="add_food">
-    <%= form.submit "Add Food" %>
-  </div>
-<% end %>
+    <!-- Steps -->
+    <div class="mb-6">
+      <%= f.label :steps, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= f.text_area :steps, class: "shadow-sm bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+      dark:shadow-sm-light" %>
+    </div>
+
+    <!-- Cooking Time -->
+    <div class="mb-6">
+      <%= f.label :cooking_time, "Cooking Time (minutes)", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= f.number_field :cooking_time, class: "shadow-sm bg-gray-50 border border-gray-300
+  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+  dark:shadow-sm-light" %>
+    </div>
+
+    <!-- Preparation Time -->
+    <div class="mb-6">
+      <%= f.label :preparation_time, "Preparation Time (minutes)", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= f.number_field :preparation_time, class: "shadow-sm bg-gray-50 border border-gray-300
+  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+  dark:shadow-sm-light" %>
+    </div>
+
+    <!-- Status (Public or Private) -->
+    <div class="mb-6">
+      <%= f.label :public, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= f.select :public, ['true', 'false'], class: "shadow-sm bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+      dark:shadow-sm-light" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit 'Create Recipe', class: 'text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800' %>
+    </div>
+  <% end %>
+</main>
+
+</body>
+</html>

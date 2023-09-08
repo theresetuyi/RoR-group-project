@@ -7,7 +7,8 @@ class RecipeFoodsController < ApplicationController
   end
 
   # GET /recipe_foods/1 or /recipe_foods/1.json
-  def show; end
+  def show
+  end
 
   # GET /recipe_foods/new
   def new
@@ -15,7 +16,8 @@ class RecipeFoodsController < ApplicationController
   end
 
   # GET /recipe_foods/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /recipe_foods or /recipe_foods.json
   def create
@@ -46,13 +48,19 @@ class RecipeFoodsController < ApplicationController
   end
 
   # DELETE /recipe_foods/1 or /recipe_foods/1.json
-  def destroy
-    @recipe_food.destroy
+  # app/controllers/recipes_controller.rb
 
-    respond_to do |format|
-      format.html { redirect_to recipe_foods_url, notice: 'Recipe food was successfully destroyed.' }
-      format.json { head :no_content }
+  def destroy
+    @recipe_food = RecipeFood.find(params[:id])
+    @recipe = @recipe_food.recipe # Store the associated recipe before destroying
+
+    if @recipe_food.destroy
+      flash[:notice] = "Food removed successfully."
+    else
+      flash[:alert] = "Error removing food."
     end
+
+    redirect_to recipe_path(@recipe)
   end
 
   private
@@ -64,6 +72,6 @@ class RecipeFoodsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def recipe_food_params
-    params.require(:recipe_food).permit(:quality, :recipe_id, :food_id)
+    params.require(:recipe_food).permit(:food_name, :price, :quantity, :measurement_unit)
   end
 end
