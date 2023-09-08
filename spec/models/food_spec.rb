@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Food, type: :model do
   context 'Validation' do
-    let(:food) {Food.new}
+    let(:food) { Food.new }
     it 'case: in-valid' do
-      expect { food.save! }.to raise_error(ActiveRecord::RecordInvalid) 
+      expect { food.save! }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
     it 'case: valid' do
