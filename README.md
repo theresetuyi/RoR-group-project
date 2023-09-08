@@ -60,7 +60,7 @@ Rails 7.07 or above
 
 ### Setup
 
-```git clone github.com/redmarverick/blog_app.git```
+```git clone github.com/theresetuyi/Ruby-on-Rails-group-project.git```
 
 
 ### Install
