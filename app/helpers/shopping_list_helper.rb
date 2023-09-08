@@ -21,7 +21,7 @@ module ShoppingListHelper
             food_id: food_id,
             name: inventory_food.food.name, # Access food's name through inventory_food
             quantity_missing: quantity_needed - quantity_available,
-            price: inventory_food.food.price*(quantity_needed - quantity_available) # Access food's price through inventory_food
+            price: inventory_food.food.price * (quantity_needed - quantity_available)
           }
         end
       else
@@ -31,7 +31,7 @@ module ShoppingListHelper
           food_id: food_id,
           name: food.name, # Access food's name through the found food
           quantity_missing: quantity_needed,
-          price: food.price*quantity_needed # Access food's price through the found food
+          price: food.price * quantity_needed # Access food's price through the found food
         }
       end
     end
