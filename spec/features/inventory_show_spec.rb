@@ -1,22 +1,22 @@
 require 'rails_helper'
 
-RSpec.feature "InventoryShows", type: :feature do
-  let(:user) {
+RSpec.feature 'InventoryShows', type: :feature do
+  let(:user) do
     User.create(name: 'john', email: 'user@gmail.com', password: 'user@123')
-  }
+  end
 
-  let(:inventory) {
-    Inventory.create(name:'Inventory_name', description:'Details for inventory', user:user)
-  }
+  let(:inventory) do
+    Inventory.create(name: 'Inventory_name', description: 'Details for inventory', user:)
+  end
 
-  before(:each) {
+  before(:each) do
     visit(inventory_path(inventory))
-    
+
     fill_in('Email', with: user.email)
     fill_in('Password', with: user.password)
     click_on('Log in')
-  }
-  
+  end
+
   it 'Case : food added to inventory' do
     expect(page).to have_content('This inventory is empty.')
   end
@@ -28,11 +28,11 @@ RSpec.feature "InventoryShows", type: :feature do
     select('Kilos', from: 'Measurement unit')
     fill_in('Price', with: 23)
     click_on('Next')
-    
-    fill_in("Quantity (Kilos)", with: 3)
+
+    fill_in('Quantity (Kilos)', with: 3)
     click_on('Save')
 
-    expect(page).to have_content("food_name")
-    expect(page).to have_content("3 Kilos")
+    expect(page).to have_content('food_name')
+    expect(page).to have_content('3 Kilos')
   end
 end
