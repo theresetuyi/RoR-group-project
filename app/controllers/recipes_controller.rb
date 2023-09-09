@@ -1,4 +1,8 @@
+include ShoppingListHelper
+
 class RecipesController < ApplicationController
+  before_action :authenticate_user!, only: [:edit, :update, :destroy]
+  before_action :set_recipe, only: [:show, :edit, :update, :destroy]
   def index
     @recipes = Recipe.all
   end
@@ -15,6 +19,33 @@ class RecipesController < ApplicationController
     else
       render :new
     end
+  end
+
+  # app/controllers/recipes_controller.rb
+
+  def generate_shopping_list
+    @recipe = Recipe.find(params[:recipe_id])
+    @inventory = Inventory.find(params[:inventory_id])
+
+    # Add logic to generate the shopping list data here
+    # For example, use your existing logic to calculate missing foods
+    @missing_foods = calculate_missing_foods(@recipe, @inventory)
+    @total_value = calculate_total_value(@missing_foods)
+
+    # Render the shopping list view
+    render 'generate_shopping_list'
+  end
+
+  def calculate_total_value(missing_foods)
+    # Initialize the total value to zero
+    total_value = 0
+
+    # Iterate through the missing_foods array and sum up the prices
+    missing_foods.each do |missing_food|
+      total_value += missing_food[:price]
+    end
+
+    return total_value
   end
 
   def update_status
@@ -50,9 +81,13 @@ class RecipesController < ApplicationController
 
   def show
     @recipe = Recipe.find(params[:id])
-    p @recipe.public
-    @recipe_food = RecipeFood.includes(:food).all.where(recipe_id: @recipe.id)
-    p @recipe_food
+    @user_inventories = Inventory.where(user: current_user)
+    if !@recipe.public && current_user != @recipe.user
+      @recipe = Recipe.find(params[:id])
+      p @recipe.public
+      @recipe_food = RecipeFood.includes(:food).all.where(recipe_id: @recipe.id)
+      p @recipe_food
+    end
   end
 
   def add_food(recipe_id)
@@ -100,5 +135,11 @@ class RecipesController < ApplicationController
 
   def recipe_params2
     params.require(:recipe).permit(:name, :description, :steps, :cooking_time, :preparation_time, :public)
+  end
+
+  private
+
+  def set_recipe
+    @recipe = Recipe.find(params[:id])
   end
 end

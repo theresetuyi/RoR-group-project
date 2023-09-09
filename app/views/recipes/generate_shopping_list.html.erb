@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping List</title>
+</head>
+<body>
+<div class="flex justify-center w-full h-screen">
+  <div class="bg-white w-3/5 rounded-lg shadow-md h-min mt-8 p-6">
+    <h1 class="text-3xl font-bold mb-4">Shopping List</h1>
+
+    <div class="mb-4">
+      <p class="text-gray-600">Amount of food to buy: <span class="font-semibold"><%= @missing_foods.count %></span></p>
+      <p class="text-gray-600">Total Value of food needed: <span class="font-semibold">$<%= @total_value %></span></p>
+    </div>
+
+    <div class="mb-4">
+      <p class="text-gray-600">Recipe: <%= link_to @recipe.name, recipe_path(@recipe), class: "text-blue-500 hover:underline" %></p>
+      <p class="text-gray-600">Inventory: <%= link_to @inventory.name, inventory_path(@inventory), class: "text-blue-500 hover:underline" %></p>
+    </div>
+
+    <table class="min-w-full border border-gray-200">
+      <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2">Food</th>
+        <th class="px-4 py-2">Quantity</th>
+        <th class="px-4 py-2">Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @missing_foods.each do |missing_food| %>
+        <tr>
+          <td class="px-4 py-2"><%= missing_food[:name] %></td>
+          <td class="px-4 py-2"><%= missing_food[:quantity_missing] %></td>
+          <td class="px-4 py-2">$<%= missing_food[:price] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

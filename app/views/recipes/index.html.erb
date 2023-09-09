@@ -11,7 +11,7 @@
 
 <div class="bg-gray-100 min-h-screen flex flex-col justify-start items-center pt-8">
   <main class="w-full md:w-3/5 mt-8 p-4">
-    <h1 class="text-center mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Recipes</h1>
+    <h1 class="text-center mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">My Recipes</h1>
 
     <ul class="recipes mx-auto divide-y divide-gray-300 bg-white p-4 rounded-lg shadow-lg">
       <% if @recipes.empty? %>
@@ -23,12 +23,20 @@
             <h2 class="text-lg font-medium mr-5">Description</h2>
           </div>
         </li>
+        <% user_has_recipes = false %>
         <% @recipes.each do |recipe| %>
-          <%= render partial: 'shared/inventory_or_recipe_item',
-                     locals: { data: recipe }
-          %>
+          <% if current_user == recipe.user %>
+            <% user_has_recipes = true %>
+            <%= render partial: 'shared/inventory_or_recipe_item',
+                       locals: { data: recipe }
+            %>
+          <% end %>
+        <% end %>
+        <% unless user_has_recipes %>
+          <li class="py-8 text-center text-gray-500">There are no recipes yet</li>
         <% end %>
       <% end %>
+
     </ul>
 
     <a href="<%= new_recipe_path %>" title="New Recipe"

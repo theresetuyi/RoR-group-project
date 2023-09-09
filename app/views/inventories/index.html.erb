@@ -24,9 +24,11 @@
           </div>
         </li>
         <% @inventory_list.each do |invent_item| %>
+          <% if current_user == invent_item.user %>
           <%= render partial: 'shared/inventory_or_recipe_item',
                      locals: { data: invent_item }
           %>
+        <% end %>
         <% end %>
       <% end %>
     </ul>

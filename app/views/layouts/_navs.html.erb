@@ -6,7 +6,8 @@
     <div class="md:flex space-x-4">
       <ul class="flex space-x-4">
         <li><%= link_to 'Inventories', inventories_path, class: 'text-white' %></li>
-        <li><%= link_to 'Recipes', recipes_path, class: 'text-white' %></li>
+        <li><%= link_to 'My Recipes', recipes_path, class: 'text-white' %></li>
+        <li><%= link_to 'Public Recipes', public_recipes_path, class: 'text-white' %></li>
         <li><%= link_to 'Home', root_path, class: 'text-white' %></li>
         <% if user_signed_in? %>
         <li><%= link_to 'Profile', edit_user_registration_path, class: 'text-white' %></li>
