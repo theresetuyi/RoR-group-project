@@ -16,6 +16,7 @@ RSpec.describe RecipeFood, type: :model do
 
       interface.recipe = recipe
       interface.food = food
+      interface.quantity = 3
     end
 
     it 'Case: valied' do

@@ -25,9 +25,9 @@ RSpec.feature 'RecipesAddFood', type: :feature do
 
     click_on('Select ingredients to Add')
 
-    fill_in('food[name]', with: 'food_name')  # Use 'food[name]' for the input field name
-    select('Kilos', from: 'food[measurement_unit]')  # Use 'food[measurement_unit]' for the select field name
-    fill_in('food[price]', with: 23)  # Use 'food[price]' for the input field name
+    fill_in('food[name]', with: 'food_name') # Use 'food[name]' for the input field name
+    select('Kilos', from: 'food[measurement_unit]') # Use 'food[measurement_unit]' for the select field name
+    fill_in('food[price]', with: 23) # Use 'food[price]' for the input field name
 
     click_on('Create Ingredient')
 

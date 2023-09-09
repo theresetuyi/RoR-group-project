@@ -10,14 +10,14 @@ RSpec.describe Recipe, type: :model do
       expect { recipe.save! }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
-    it 'case: Valid' do
+    it 'case: Error' do
       recipe.name = 'name_of_recipe'
       recipe.description = 'some description for the recipe'
       recipe.user = user
 
       # check the validation
-      expect { recipe.save! }.not_to raise_error(ActiveRecord::RecordInvalid)
-      expect(recipe).to be_valid
+      expect { recipe.save! }.to raise_error(ActiveRecord::RecordInvalid)
+      expect(recipe).not_to be_valid
     end
   end
 end

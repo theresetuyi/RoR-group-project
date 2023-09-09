@@ -2,7 +2,7 @@ include ShoppingListHelper
 
 class RecipesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_recipe, only: [:show, :edit, :update, :destroy]
+  before_action :set_recipe, only: %i[show edit update destroy]
   def index
     @recipes = Recipe.includes(:recipe_foods, :foods).all
   end
@@ -45,7 +45,7 @@ class RecipesController < ApplicationController
       total_value += missing_food[:price]
     end
 
-    return total_value
+    total_value
   end
 
   def update_status
@@ -82,12 +82,12 @@ class RecipesController < ApplicationController
   def show
     @recipe = Recipe.find(params[:id])
     @user_inventories = Inventory.where(user: current_user)
-    if !@recipe.public && current_user != @recipe.user
-      @recipe = Recipe.find(params[:id])
-      p @recipe.public
-      @recipe_food = RecipeFood.includes(:food).all.where(recipe_id: @recipe.id)
-      p @recipe_food
-    end
+    return unless !@recipe.public && current_user != @recipe.user
+
+    @recipe = Recipe.find(params[:id])
+    p @recipe.public
+    @recipe_food = RecipeFood.includes(:food).all.where(recipe_id: @recipe.id)
+    p @recipe_food
   end
 
   def add_food(recipe_id)
@@ -125,12 +125,6 @@ class RecipesController < ApplicationController
   def select_foods
     @recipe = Recipe.find(params[:id])
     @available_foods = Food.all # Modify this to retrieve the foods you want to display
-  end
-
-  def recipe_params
-    params.require(:recipe).permit(
-      recipe_foods_attributes: %i[id food_id quantity _destroy]
-    )
   end
 
   def recipe_params2

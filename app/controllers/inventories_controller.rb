@@ -23,9 +23,9 @@ class InventoriesController < ApplicationController
     quantity = params[:food_quantity]
 
     # Handle adding the food to the inventory here, for example:
-    if food_id.present? && quantity.to_i > 0
+    if food_id.present? && quantity.to_i.positive?
       food = Food.find(food_id)
-      inventory_food = InventoryFood.find_or_initialize_by(inventory: @inventory, food: food)
+      inventory_food = InventoryFood.find_or_initialize_by(inventory: @inventory, food:)
       inventory_food.quantity += quantity.to_i
 
       if inventory_food.save

@@ -22,7 +22,7 @@ RSpec.feature 'RecipesNewSpec.rbs', type: :feature do
       fill_in('Preparation Time (minutes)', with: '2')
       click_on('Create Recipe')
 
-      expect(page).to have_current_path(/\/recipes\//)
+      expect(page).to have_current_path(%r{/recipes/})
       expect(page).to have_content('RecipeName')
       expect(page).to have_content('Steps: Steps how to make the recipe')
       expect(page).to have_content('Cooking time: 2')
