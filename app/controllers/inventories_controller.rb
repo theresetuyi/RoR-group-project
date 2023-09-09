@@ -2,7 +2,7 @@ class InventoriesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @inventory_list = Inventory.all
+    @inventory_list = Inventory.includes(:foods, :inventory_foods).all
   end
 
   def new
