@@ -6,7 +6,6 @@ RSpec.describe Recipe, type: :model do
     let(:user) { User.create(name: 'John', email: 'user@gmail.com', password: 'asdf@123') }
 
     it 'case: Error' do
-
       # check the error
       expect { recipe.save! }.to raise_error(ActiveRecord::RecordInvalid)
     end
