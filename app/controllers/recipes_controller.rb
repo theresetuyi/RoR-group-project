@@ -1,7 +1,7 @@
 include ShoppingListHelper
 
 class RecipesController < ApplicationController
-  before_action :authenticate_user!, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
   def index
     @recipes = Recipe.includes(:recipe_foods, :foods).all
