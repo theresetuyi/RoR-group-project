@@ -5,6 +5,10 @@
     </div>
     <div class="md:flex space-x-4">
       <ul class="flex space-x-4">
+        <% if user_signed_in? %>
+          <li><%= link_to 'New Recipe', new_recipe_path, class: 'text-white' %></li>
+          <li><%= link_to 'New Inventory', new_inventory_path, class: 'text-white' %></li>
+        <% end %>
         <li><%= link_to 'Inventories', inventories_path, class: 'text-white' %></li>
         <li><%= link_to 'My Recipes', recipes_path, class: 'text-white' %></li>
         <li><%= link_to 'Public Recipes', public_recipes_path, class: 'text-white' %></li>
