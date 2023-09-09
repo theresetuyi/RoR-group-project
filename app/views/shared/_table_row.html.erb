@@ -1,0 +1,15 @@
+<tr class="border-b border-gray-200">
+    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        <%= food.name %>
+    </th>
+    <td class="px-6 py-4">
+        <%= quantity %> <%= food.measurement_unit %>
+    </td>
+    <td class="px-6 py-4">
+        <%= button_to 'Remove',
+        inventory_food_path(@inventory, food),
+        class: "font-medium text-blue-600 dark:text-blue-500 hover:underline",
+        method: :delete
+        %>
+    </td>
+</tr>

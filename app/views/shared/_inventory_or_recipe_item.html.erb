@@ -1,0 +1,35 @@
+<% if data.is_a?(Recipe) %>
+  <article class="flex items-center py-4 px-6">
+    <div class="title w-[40%] flex-grow">
+      <h2 class="my-2 text-lg font-semibold text-gray-800 hover:underline">
+        <%= link_to data.name, show_recipe_path(data) %>
+      </h2>
+      <% if can? :destroy, data %>
+        <%= button_to 'REMOVE', recipe_path(data), method: :delete,
+                      class: 'text-red-500 hover:text-red-700 focus:outline-none' %>
+      <% end %>
+    </div>
+    <div class="ml-4 text-gray-600">
+      <p class="text-sm">
+        <%= data.description %>
+      </p>
+    </div>
+  </article>
+<% else %>
+  <article class="flex items-center py-4 px-6">
+    <div class="title w-[40%] flex-grow">
+      <h2 class="my-2 text-lg font-semibold text-gray-800 hover:underline">
+        <%= link_to data.name, inventory_path(data) %>
+      </h2>
+      <% if can? :destroy, data %>
+        <%= button_to 'REMOVE', inventory_path(data), method: :delete,
+                      class: 'text-red-500 hover:text-red-700 focus:outline-none' %>
+      <% end %>
+    </div>
+    <div class="ml-4 text-gray-600">
+      <p class="text-sm">
+        <%= data.description %>
+      </p>
+    </div>
+  </article>
+<% end %>
